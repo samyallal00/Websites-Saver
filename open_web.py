@@ -28,11 +28,13 @@ class Browser():
 
     def remove_link(self, link):
         """ Remove existing link from dictionnary """
+        flag = 0
         for topic in self.data.keys():
             if link not in self.data[topic]:
                 print('Link non existent.')
             else:
                 self.data[topic].remove(link)
+                flag = 1
                 print('Link removed from file.')
                 if len(self.data[topic]) == 0:
                     print('No more links for' + topic + ". Erased.")
@@ -40,6 +42,11 @@ class Browser():
                     self.data = new_data
                 
         self._update_file()
+
+        if(flag):
+            return True
+        else:
+            return False
 
     def _update_file(self):
         """ Update the json file """
