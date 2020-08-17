@@ -1,0 +1,47 @@
+Author: Samy ALLAL
+Email: samyallal2@gmail.com
+
+
+WHAT IS IT?
+  - Do you have multiple tabs open in your browser?
+  - Is that killing your system's performance and RAM usage?
+  - But, you still would like to keep all your tabs?
+
+  This program is right for you!
+
+  It allows you to store your links all together under one topic of your
+  choice. You could have multiple topics, and in each topic multiple links.
+
+  Each topic opens up in a new window in your browser.
+  All links open up as multiple tabs in a window.
+
+
+EXAMPLE:
+
+  Add topic: WORK
+  Add links: <link1>, <link2>, <link3>
+
+  Open browser: WORK
+  ^^ Opens a new window in your default browser with three tabs
+     <link1>, <link2>, and <link3> ^^
+
+
+MAIN FUNCTIONALITIES:
+  1. Add new topics and new links.
+  2. Delete existing links individually.
+  3. Open up a list of links by selecting the topic.
+
+
+TWO VERSIONS:
+  1. Terminal
+  2. GUI (Much better)
+
+NOTE:
+  - Currently set to work on MacOS, need to modify path in backend.py
+    to your default web browser path.
+
+DEPENDENCIES:
+
+  1. Python3 (webbrowser comes with Python3)
+  2. tkinter module
+  

@@ -127,7 +127,10 @@ def process_input(browser):
     else:
         browser.open_browser(read)
 
-    
+
+
+""" THIS IS THE TERMINAL VERSION NOT THE GUI """
+""" THE GUI VERSION IS SUPERIOR. SEPARATE FILE """
 def launch():
     """ Launch the websites """
     file = "websites_saved.json"
@@ -137,8 +140,3 @@ def launch():
     browser.display_menu()
     process_input(browser)
     
-    
-
-    
-if __name__ == '__main__':
-    launch()
