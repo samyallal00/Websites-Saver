@@ -87,7 +87,7 @@ class Browser():
                 webbrowser.get(using='chrome').open(web, new=2)
                 
                 print('Successfully opened your saved websites.')
-                return True
+            return True
         except:
             return False
 
