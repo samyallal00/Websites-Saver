@@ -25,7 +25,8 @@ class Browser():
             print('Successfuly added a new topic and the link.')
 
         self._update_file()
-
+        return True
+    
     def remove_link(self, link):
         """ Remove existing link from dictionnary """
         flag = 0
@@ -69,7 +70,27 @@ class Browser():
             print(str(topic_id) + " - " + topic)
             topic_id += 1
 
-            
+    def get_topics(self):
+        """ Return the keys of the dictionnary """
+        return list(self.data.keys())
+
+    def get_links(self, topic):
+        """ Return links specific to topic """
+        return list(self.data[topic])
+
+    def open_browser_GUI(self, topic):
+        """ Open the browser for the GUI version """
+        websites = self.data[topic]
+        try:
+            os.system("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome")
+            for web in websites:
+                webbrowser.get(using='chrome').open(web, new=2)
+                
+                print('Successfully opened your saved websites.')
+                return True
+        except:
+            return False
+
     def open_browser(self, option):
         """ Open browser of links """
         i = 0

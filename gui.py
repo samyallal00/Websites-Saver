@@ -1,210 +1,196 @@
 import tkinter as tk
-import open_web as web
+import controller as MVC
+
 
 class MainGUI():
     """ Create and design the GUI """
-    def __init__(self):
+
+    def __init__(self, mvc):
         self.window = tk.Tk()
+        self.MVC = mvc
         self.display_menu()
-        self.browser = web.Browser("websites_saved.json")
-        self.browser.load_links()
-        self.add_flag= self.del_flag=0
-        self.window.mainloop()
 
     def display_menu(self):
         """ Display the menu of commands """
-        add = "Add new link?"
-        delt =  "Remove topic?"
-        openl = "Open browser."
-        
         self.add_button = tk.Button(self.window,
-                                    text=add,
-                                    height = 5, 
-                                    width = 30,
-                                    command=self._add_link)
+                                    text="Topic->Link: Add?",
+                                    height=5,
+                                    width=30,
+                                    command=self.MVC.display_Add_GUI)
 
         self.del_button = tk.Button(self.window,
-                                    text=delt,
-                                    height = 5,
-                                    width = 30,
-                                    command=self._del_link)
+                                    text="Link: Remove?",
+                                    height=5,
+                                    width=30,
+                                    command=self.MVC.display_Del_GUI)
 
-        #self.open_button = tk.Button(self.window, text=openl, command=self._open_brow)
-        
+        self.open_button = tk.Button(self.window,
+                                     text="Link: Open?",
+                                     height=5,
+                                     width=30,
+                                     command=self.MVC.open_Browser_GUI)
         self.add_button.pack()
         self.del_button.pack()
-        #self.open_browser.pack()
+        self.open_button.pack()
 
-    
-    def _add_link(self):
-        """ Function called when add button is clicked """
+    def destroy_main_widgets(self):
+        """ Destroy: main page widgets """
         self.add_button.destroy()
         self.del_button.destroy()
-        #self.open_button.pack_forget()
+        self.open_button.destroy()
 
-        self.add_flag = 1
-        # -- Label for topic entry -- #
+    def add_link_GUI(self):
+        """ Function called when add button is clicked """
+        # -- LABEL for TOPIC/LINK Entry -- #
         self.topic_lbl = tk.Label(self.window,
                                   text="Topic: ",
-                                  height = 2, 
-                                  width = 10)
+                                  height=2,
+                                  width=10)
+
+        self.link_lbl = tk.Label(self.window,
+                                 text="Link: ",
+                                 height=2,
+                                 width=10)
+
+        self.link_lbl.grid(row=1)
         self.topic_lbl.grid(row=0)
 
-        # -- Text entry for topic -- #
+        # -- TEXT Entry for TOPIC/LINK -- #
         self.topic_txt = tk.Text(self.window, height=2, width=80)
         self.topic_txt.grid(row=0, column=1)
 
-
-        # -- Label for link entry -- #
-        self.link_lbl = tk.Label(self.window,
-                                 text="Link: ",
-                                 height = 2,
-                                 width = 10)
-        self.link_lbl.grid(row=1)
-        
-        # -- Text entry for link -- #
         self.link_txt = tk.Text(self.window, height=2, width=80)
         self.link_txt.grid(row=1, column=1)
 
-        # -- OK button to finalize the add functionnality -- #
+        # -- OK BUTTON: Finalize Add functionality -- #
         self.ok_btn = tk.Button(self.window,
                                 text="OK",
                                 height=2,
                                 width=10,
-                                command=self._finalize_add)
-        
+                                command=self.MVC.finalize_add)
+
         self.ok_btn.grid(row=3)
 
-        
-    def _finalize_add(self):
-        """ When OK button pressed get user imput and add the new link """
-        # -- Get user input and add new link -- #
-        topic_input = self.topic_txt.get("1.0","end-1c")
-        link_input = self.link_txt.get("1.0","end-1c")
-        
-        self.browser.add_new_link(topic_input, link_input)
-
-        self._destroy_main_widgets()
-
-        # -- Display a Success message -- #
-        self.success_lbl = tk.Label(self.window,
-                                    text="Successfully added the new link.",
-                                    height=3,
-                                    width=50)
-
-        self.exit_btn = tk.Button(self.window,
-                                  text="Exit",
-                                  height=3,
-                                  width=10,
-                                  command=lambda: exit(0))
-
-        self.back_btn = tk.Button(self.window,
-                                  text="Back",
-                                  height=3,
-                                  width=10,
-                                  command=self._go_back_main_menu)
-        
-        self.success_lbl.grid(row=0)
-        self.exit_btn.grid(row=1, column=0)
-        self.back_btn.grid(row=1, column=1)
-        
-
-    def _go_back_main_menu(self):
-        """ Display the main menu again """
-        if self.add_flag:
-            self._destroy_add_widgets()
-        elif self.del_flag:
-            self._destroy_del_widgets()
-            
-        self.display_menu()
-        
-    def _destroy_main_widgets(self):
+    def destroy_main_add_widgets(self):
         """ Simply remove the main widgets from the window """
         self.topic_lbl.destroy()
         self.link_lbl.destroy()
         self.topic_txt.destroy()
         self.link_txt.destroy()
         self.ok_btn.destroy()
-        
-    def _destroy_add_widgets(self):
+
+    def destroy_add_widgets(self):
         """ Simply remove the widgets associated with the add operation """
-        self.success_lbl.destroy()
+        self.lbl.destroy()
         self.exit_btn.destroy()
         self.back_btn.destroy()
 
-
-    def _del_link(self):
+    def del_link_GUI(self):
         """ Display the GUI for deleting a link """
-        self.add_button.destroy()
-        self.del_button.destroy()
-        #self.open_button.pack_forget()                                                                     
-
-        self.del_flag = 1
-        # -- Label for link entry -- #
+        # -- LABEL for LINK Entry -- #
         self.link_lbl = tk.Label(self.window,
                                  text="Link: ",
-                                 height = 2,
-                                 width = 10)
+                                 height=2,
+                                 width=10)
         self.link_lbl.grid(row=0)
-        
-        # -- Text entry for link -- #
+
+        # -- TEXT Entry for LINK -- #
         self.link_txt = tk.Text(self.window, height=2, width=80)
         self.link_txt.grid(row=0, column=1)
 
-        # -- OK button to finalize the add functionnality -- # 
+        # -- OK button to finalize the add functionnality -- #
         self.ok_btn = tk.Button(self.window,
                                 text="OK",
                                 height=2,
                                 width=10,
-                                command=self._finalize_del)
+                                command=self.MVC.finalize_del)
 
         self.ok_btn.grid(row=2)
 
-    def _finalize_del(self):
-        """ Finalize the deletion of the link """
-        # -- Get user input and add new link -- # 
-        link_input = self.link_txt.get("1.0","end-1c")
-        value = self.browser.remove_link(link_input)
-
-        self._destroy_main_del_widgets()
-        
-        # -- Display a Success message -- #
-        if value:
-            self.lbl = tk.Label(self.window,
-                                text="Successfully deleted the link provided.",
-                                height=3,
-                                width=50)
-            self.lbl.grid(row=0)
-        else:
-            self.lbl = tk.Label(self.window,
-                                text="Non-existent link.",
-                                height=3,
-                                width=50)
-            self.lbl.grid(row=0)
-            
-        self.exit_btn = tk.Button(self.window,
-                                  text="Exit",
-                                  height=3,
-                                  width=10,
-                                  command=lambda: exit(0))
-    
-        self.back_btn = tk.Button(self.window,
-                                  text="Back",
-                                  height=3,
-                                  width=10,
-                                  command=self._go_back_main_menu)
-
-        self.exit_btn.grid(row=1, column=0)
-        self.back_btn.grid(row=1, column=1)
-
-    def _destroy_main_del_widgets(self):
+    def destroy_main_del_widgets(self):
         """ Simply remove the widgets associated with the add operation """
         self.link_lbl.destroy()
         self.link_txt.destroy()
         self.ok_btn.destroy()
 
-    def _destroy_del_widgets(self):
+    def destroy_del_widgets(self):
         """ Simply remove the widgets associated with the add operation """
         self.lbl.destroy()
         self.exit_btn.destroy()
         self.back_btn.destroy()
+
+    def open_brow_GUI(self, topics):
+        """ GUI for dropdown menu to open """
+        # Add a grid
+        self.mainframe = tk.Frame(self.window)
+        self.mainframe.grid(column=0, row=0, sticky=(tk.N, tk.W, tk.E, tk.S))
+        self.mainframe.columnconfigure(0, weight=1)
+        self.mainframe.rowconfigure(0, weight=1)
+        self.mainframe.pack(pady=100, padx=100)
+
+        # Create a Tkinter variable
+        self.tkvar = tk.StringVar(self.window)
+
+        # Dictionary with options
+        self.tkvar.set('Select')  # set the default option
+
+        self.popupMenu = tk.OptionMenu(self.mainframe, self.tkvar, *topics)
+        self.label = tk.Label(self.mainframe, text="Choose Topic: ")
+        self.label.grid(row=1, column=1)
+        self.popupMenu.grid(row=2, column=1)
+
+        # link function to change dropdown
+        self.tkvar.trace('w', self.MVC.finalize_opening)
+
+    def destroy_main_open_widgets(self):
+        """Destroy: Main Widgets of Open """
+        self.popupMenu.destroy()
+        self.label.destroy()
+        self.mainframe.destroy()
+
+    def destroy_open_widgets(self):
+        """ Destroy the last widgets due to open """
+        self.lbl.destroy()
+        self.back_btn.destroy()
+        self.exit_btn.destroy()
+
+    def display_message(self, success, option):
+        """ Display a success or error message based on flags """
+        success_message = error_message = ""
+        if option == "add":
+            success_message = "Successfully added new link."
+            error_message = "An error occured while adding new link."
+        elif option == "del":
+            success_message = "Successfully deleted link."
+            error_message = "An error occured while deleting link"
+        else:
+            success_message = "Successfully opened browser."
+            error_message = "An error occured while opening browser."
+
+        if success:
+            self.lbl = tk.Label(self.window,
+                                text=success_message,
+                                height=3,
+                                width=50)
+            self.lbl.grid(row=0)
+        else:
+            self.lbl = tk.Label(self.window,
+                                text=error_message,
+                                height=3,
+                                width=50)
+            self.lbl.grid(row=0)
+
+        self.exit_btn = tk.Button(self.window,
+                                  text="Exit",
+                                  height=3,
+                                  width=10,
+                                  command=self.MVC.close_program)
+
+        self.back_btn = tk.Button(self.window,
+                                  text="Back",
+                                  height=3,
+                                  width=10,
+                                  command=self.MVC.go_back_main_menu)
+
+        self.exit_btn.grid(row=1, column=0)
+        self.back_btn.grid(row=1, column=1)
